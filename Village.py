@@ -4,25 +4,34 @@ from FL import *
 
 
 class Village(object):
-    def __init__(self):
+    def __init__(self, nbjoueur):
         self.joueurs = []
+        self.maison = []
+        self.nbjoueur = nbjoueur
+        self.nbjours = 0
+        self.evenement = 0
+
         self.creation()
 
-
     def creation(self):
-        self.add(FL('avocat'))
         self.add(FL('artichaut'))
         self.add(FL('Grande noix'))
         self.add(FL('pastèque'))
         self.add(FL('pomme dorée'))
         self.add(FL('champignon hypnotiseur'))
+        self.add(FL('avocat'))
         self.add(FL('champignon zombie'))
         self.add(FL('champignon parasite'))
-        self.add(FL('patate'))
-        self.add(FL('patate'))
-        self.add(FL('patate'))
-        self.add(FL('patate'))
-        self.add(FL('patate'))
+        if self.nbjoueur > 8:
+            i = 9
+            while i < self.nbjoueur + 1:
+                self.add(FL('patate'))
+                i = i + 1
+
+        self.joueurs.sort(key=lambda x: x.nom)
+
+
+
 
 
     def add(self, fl):

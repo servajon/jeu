@@ -40,3 +40,6 @@ class FL(object):
 
     def get_sprit(self):
         return self.sprit
+
+    def __str__(self):
+        return self.get_nom()

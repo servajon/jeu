@@ -7,7 +7,7 @@ from Village import *
 pygame.init()
 
 
-village = Village()
+village = Village(8)
 
 
 
