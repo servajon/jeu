@@ -9,15 +9,15 @@ class Maison(object):
         self.centrex = x + 64/2
         self.centrey = y + 92/2
 
-        if self.nom == 'artichaut':
+        if self.nom == 'Artichaut':
             self.sprit = pygame.image.load('sprit/maisonartichaut.png')
-        elif self.nom == 'pasteque':
+        elif self.nom == 'Pastèque':
             self.sprit = pygame.image.load('sprit/maisonPastéque.png')
-        elif self.nom == 'grande noix':
+        elif self.nom == 'Grande Noix':
             self.sprit = pygame.image.load('sprit/maisonnoix.png')
-        elif self.nom == 'pomme dorée':
+        elif self.nom == 'Pomme Dorée':
             self.sprit = pygame.image.load('sprit/maisonpomme.png')
-        elif self.nom == 'avocat':
+        elif self.nom == 'Avocat':
             self.sprit = pygame.image.load('sprit/maisonavocat.png')
         else:
             self.sprit = pygame.image.load('sprit/maisonpatate.png')

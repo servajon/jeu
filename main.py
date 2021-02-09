@@ -1,14 +1,11 @@
 # Script pricipal
-import pygame
-from FL import *
 from Village import *
 from Maison import *
 
 # Intialisation de pygame
 pygame.init()
 clock = pygame.time.Clock()
-
-village = Village(30)
+village = Village(10)
 
 # Création de la fenêtre
 
@@ -29,8 +26,24 @@ def redrawGameWindow():
 # Boucle infinie qui tourne tant que le jeu tourne
 is_running = True
 while is_running:
-    clock.tick(18)
-    #village.animation(win)
+    clock.tick(40)
+
+    if village.get_evenement() == "rentre":
+        if not village.animationrentre():
+            village.set_evenement("null")
+
+    if village.get_evenement() == "sort":
+        if not village.animationsorti():
+            village.set_evenement("null")
+
+    if village.get_evenement() == "null":
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_LEFT]:
+            village.gestionjour("sort")
+        elif keys[pygame.K_RIGHT]:
+            village.gestionjour("rentre")
+        elif keys[pygame.K_SPACE]:
+            village.gestionjour("action")
 
     # Liste des événements ayant lieu durant cette frame
     events = pygame.event.get()

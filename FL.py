@@ -2,27 +2,13 @@ import pygame
 
 
 class FL(object):
-    def __init__(self, nom):
-        self.nom = nom
-        self.rentre = False
+    def __init__(self):
+        self.nom = "FL"
+        self.bouge = False
         self.vivant = True
+        self.vote = "null"
         self.x = 0
         self.y = 0
-
-        if (self.nom == 'patate'):
-            self.sprit = pygame.image.load('sprit/patate.png')
-        elif (self.nom == 'grande noix'):
-            self.sprit = pygame.image.load('sprit/noix.png')
-        elif (self.nom == 'artichaut'):
-            self.sprit = pygame.image.load('sprit/artichaud.jpeg')
-        elif (self.nom == 'avocat'):
-            self.sprit = pygame.image.load('sprit/avocat.png')
-        elif (self.nom == 'pasteque'):
-            self.sprit = pygame.image.load('sprit/pastéque.jpg')
-        elif (self.nom == 'pomme dorée'):
-            self.sprit = pygame.image.load('sprit/Pomme_doree.png')
-        else:
-            self.sprit = pygame.image.load('sprit/croix.png')
 
     def set_vivant(self, vivant):
         self.vivant = vivant
@@ -48,11 +34,23 @@ class FL(object):
     def set_y(self, y):
         self.y = y
 
-    def get_rentre(self):
-        return self.rentre
+    def get_bouge(self):
+        return self.bouge
 
-    def set_rentre(self, a):
-        self.rentre = a
+    def set_bouge(self, a):
+        self.bouge = a
+
+    def get_vote(self):
+        return self.vote
+
+    def set_vote(self):
+        print("votez pour la personne a éliminer : ")
+        ch = input()
+        self.vote = ch
+
+    def action(self):
+        return ("pas d'acion pour la classe FL")
+
 
     def __str__(self):
         return self.get_nom()
@@ -64,4 +62,5 @@ class FL(object):
             return 1
 
     def draw(self, win):
-        win.blit(self.sprit, (self.x, self.y))
+        if self.vivant:
+            win.blit(self.sprit, (self.x, self.y))
