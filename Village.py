@@ -113,6 +113,7 @@ class Village(object):
                 j = j + 1
 
     def set_mouvement_on(self):
+        print("Mouvement ON")
         for i in range(len(self.joueurs)):
             if self.joueurs[i].get_vivant():
                 self.joueurs[i].set_bouge(True)
@@ -120,18 +121,27 @@ class Village(object):
     def action(self):
         for i in range(len(self.joueurs)):
             if self.joueurs[i].get_nom() == "Pomme Dorée":
-                nomres = self.joueurs[i].action()
-                if nomres != "null":
-                    for j in range(len(self.mort)):
-                        if self.mort[j].get_nom() == nomres:
-                            self.mort[j].set_vivant(True)
-                            self.joueurs.append(self.mort[j])
-                            self.joueurs.sort(reverse=True)
-                            self.evenement = "update_pos"
-                            break
+                pygame.event.clear()
+                clique = self.posclique()
+                for i in range(len(self.mort)):
+                    xmin = 30 * i + 20
+                    xmax = 30 * i + 20 + 25
+                    ymin = 720
+                    ymax = 720 + 25
+                    if clique[0] > xmin and clique[0] < xmax and clique[1] > ymin and clique[1] < ymax:
+                        self.mort[i].set_vivant(True)
+                        self.joueurs.append(self.mort[i])
+                        self.mort.pop(i)
+                        self.joueurs.sort(reverse=True)
+                        self.evenement = "update_pos"
+                    else:
+                        self.evenement = "null"
+
+
             else:
                 self.joueurs[i].action()
                 self.evenement = "null"
+
 
     def posclique(self):
         clock = pygame.time.Clock()
@@ -184,6 +194,11 @@ class Village(object):
         for i in range(len(self.joueurs)):
             if self.joueurs[i].get_nbvote() != 0:
                 self.joueurs[i].drawVote(win)
+
+    def drawMort(self, win):
+        for i in range(len(self.mort)):
+            win.blit(self.mort[i].get_sprit(), (30 * i + 30, 720))
+
 
     def animationrentre(self):
         i = 0
@@ -246,6 +261,7 @@ class Village(object):
             return False
 
     def animationsorti(self):
+        #self.set_mouvement_on()
         i = 0
         while i < self.get_nbvivant():
             if self.joueurs[i].get_vivant():
@@ -320,28 +336,37 @@ class Village(object):
             self.set_mouvement_on()
 
         if event == "rentre_fin":
-            print("RENTRE  --------------------")
+            #print("RENTRE  --------------------")
             self.evenement = "null"
 
         if event == "sort":
-            print("SORT  --------------------")
+            #print("SORT  --------------------")
             self.evenement = "sort"
             self.set_mouvement_on()
 
         if event == "mort":
-            print("MORT  --------------------")
+            #print("MORT  --------------------")
             self.tue(0)
 
         if event == "sort_fin":
             self.evenement = "null"
 
+        if event == "update_pos":
+            self.evenement = "update_pos"
+            self.set_mouvement_on()
+
+        if event == "update_pos_fin":
+            #print("fin de l'update pos")
+            self.evenement = "null"
+
+
         if event == "action":
-            print("ACTION --------------------")
+            #print("ACTION --------------------")
             self.evenement = "action"
             self.action()
 
         if event == "vote":
-            print("VOTE --------------------")
+            #print("VOTE --------------------")
             self.evenement = "null"
             for i in range(len(self.joueurs)):
                 if self.joueurs[i].get_avote() == False:
@@ -352,7 +377,7 @@ class Village(object):
                     break
 
             if self.evenement == "null":
-                print("Les votes sont finis, " + self.joueurs[self.get_maxvote()].get_nom() + " est éliminé")
+                #print("Les votes sont finis, " + self.joueurs[self.get_maxvote()].get_nom() + " est éliminé")
                 self.tue(self.get_maxvote())
                 self.set_mouvement_on()
                 self.resetvote()
@@ -369,6 +394,7 @@ class Village(object):
     def gestionjour(self):
         self.gestionevent(self.jour.get_cycle())
         if self.evenement == "update_pos":
-            self.gestionevent("sort")
+            self.set_mouvement_on()
         else:
             self.jour.next()
+

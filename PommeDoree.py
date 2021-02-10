@@ -1,4 +1,3 @@
-import pygame
 from pip._vendor.distlib.compat import raw_input
 
 from FL import *
@@ -21,6 +20,11 @@ class PommeDoree(FL):
     def set_utilisateur(self, user):
         self.utilisesur = user
 
+    def get_nbvie(self):
+        return self.vie
+    def set_nbvie(self, nb):
+        self.vie = nb
+
     def action(self):
         if not self.get_vivant() and self.vie == 1:
             print("Pomme Dorée : Je dois utiliser une vie pour me sauver")
@@ -31,14 +35,8 @@ class PommeDoree(FL):
             print("Pomme Dorée : Je meurs")
             return True
         elif self.vie == 1:
-            reanime = raw_input("choisir quelqu'un a réanimer (null personne) : ")
-            if reanime == "null":
-                print("Pomme Dorée : Je passe mon tour")
-            else:
-                self.vie = 0
-            return reanime
+            return "res"
         else:
-            print("Pomme Dorée : Je ne peux réanimer personne")
             return "null"
 
     def vote(self):

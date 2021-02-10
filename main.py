@@ -5,7 +5,7 @@ from Maison import *
 # Intialisation de pygame
 pygame.init()
 clock = pygame.time.Clock()
-village = Village(10)
+village = Village(15)
 
 # Création de la fenêtre
 
@@ -13,6 +13,7 @@ win = pygame.display.set_mode((1024, 768), pygame.RESIZABLE)
 
 village.drawP(win)
 village.drawM(win)
+village.drawMort(win)
 
 
 def redrawGameWindow():
@@ -21,13 +22,14 @@ def redrawGameWindow():
     village.drawP(win)
     if village.get_evenement() == "vote":
         village.drawV(win)
-
+    village.drawMort(win)
     pygame.display.update()
 
 
 # Boucle infinie qui tourne tant que le jeu tourne
 is_running = True
 while is_running:
+    #print(village.get_evenement())
     clock.tick(40)
     if village.get_evenement() == "rentre":
         if not village.animationrentre():
@@ -36,6 +38,10 @@ while is_running:
     if village.get_evenement() == "sort":
         if not village.animationsorti():
             village.gestionevent("sort_fin")
+
+    if village.get_evenement() == "update_pos":
+        if not village.animationsorti():
+            village.gestionevent("update_pos_fin")
 
     if village.get_evenement() == "vote":
         redrawGameWindow()
