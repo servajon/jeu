@@ -28,4 +28,5 @@ class Artichaut(FL):
             print("Artichaut : Je passe mon tour")
 
     def vote(self):
-        print("choisir joueur a éliminer : ")
+        print("Artichaut vote")
+        self.avote = True

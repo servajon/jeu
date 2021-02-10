@@ -3,6 +3,7 @@ import cmath
 from Artichaut import *
 from Avocat import *
 from GrandeNoix import *
+from Jour import *
 from Maison import *
 from Pastèque import *
 from Patate import *
@@ -16,6 +17,7 @@ class Village(object):
         self.mort = []
         self.nbjoueur = nbjoueur
         self.nbjours = 0
+        self.jour = Jour()
         self.evenement = "null"
 
         self.creation()
@@ -125,12 +127,11 @@ class Village(object):
                             self.mort[j].set_vivant(True)
                             self.joueurs.append(self.mort[j])
                             self.joueurs.sort(reverse=True)
-                            self.evenement = "sort"
+                            self.evenement = "update_pos"
                             break
-                else:
-                    self.evenement = "null"
             else:
                 self.joueurs[i].action()
+                self.evenement = "null"
 
     def posclique(self):
         clock = pygame.time.Clock()
@@ -149,18 +150,27 @@ class Village(object):
             y = self.joueurs[i].get_y()
             if clique[0] > x and clique[0] < x + self.joueurs[i].get_spritx() and clique[1] > y and clique[1] < y + self.joueurs[i].get_sprity():
                 self.joueurs[i].plusvote()
-                #self.evenement = "null"
                 return 0
         self.vote()
-
-
-
 
     def tue(self, num):
         self.joueurs[num].set_vivant(False)
         if self.joueurs[num].action():
             self.mort.append(self.joueurs[num])
             self.joueurs.pop(num)
+
+    def get_maxvote(self):
+        max = 0
+        pos = 0
+        for i in range(len(self.joueurs)):
+            if self.joueurs[i].get_nbvote() > max:
+                max = self.joueurs[i].get_nbvote()
+                pos = i
+        return pos
+
+    def resetvote(self):
+        for i in range(len(self.joueurs)):
+            self.joueurs[i].resetvote()
 
     def drawP(self, win):  #dessin des personnages
         for i in range(len(self.joueurs)):
@@ -172,7 +182,8 @@ class Village(object):
 
     def drawV(self, win): #dessin du nombre de vote
         for i in range(len(self.joueurs)):
-            self.joueurs[i].drawVote(win)
+            if self.joueurs[i].get_nbvote() != 0:
+                self.joueurs[i].drawVote(win)
 
     def animationrentre(self):
         i = 0
@@ -308,15 +319,56 @@ class Village(object):
 
             self.set_mouvement_on()
 
+        if event == "rentre_fin":
+            print("RENTRE  --------------------")
+            self.evenement = "null"
+
         if event == "sort":
+            print("SORT  --------------------")
             self.evenement = "sort"
             self.set_mouvement_on()
+
+        if event == "mort":
+            print("MORT  --------------------")
             self.tue(0)
 
+        if event == "sort_fin":
+            self.evenement = "null"
+
         if event == "action":
+            print("ACTION --------------------")
             self.evenement = "action"
             self.action()
 
         if event == "vote":
+            print("VOTE --------------------")
+            self.evenement = "null"
+            for i in range(len(self.joueurs)):
+                if self.joueurs[i].get_avote() == False:
+                    self.evenement = "vote"
+                    self.joueurs[i].vote()
+                    self.vote()
+                    pygame.time.wait(500)
+                    break
+
+            if self.evenement == "null":
+                print("Les votes sont finis, " + self.joueurs[self.get_maxvote()].get_nom() + " est éliminé")
+                self.tue(self.get_maxvote())
+                self.set_mouvement_on()
+                self.resetvote()
+                self.evenement = "sort"
+
+        if event == "affichevote":
             self.evenement = "vote"
-            self.vote()
+
+
+        if event == "null":
+            self.gestionjour()
+
+
+    def gestionjour(self):
+        self.gestionevent(self.jour.get_cycle())
+        if self.evenement == "update_pos":
+            self.gestionevent("sort")
+        else:
+            self.jour.next()

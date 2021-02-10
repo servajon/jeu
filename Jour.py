@@ -3,8 +3,14 @@ import pygame
 
 class Jour(object):
     def __init__(self):
-        self.cycle = ["matin", "midi", "soir"]
-        self.cycle_act = "soir"
+        self.cycle = ["mort" ,"sort", "action", "vote", "rentre"]
+        self.pos = 0
 
     def next(self):
-        return 0
+        if self.pos < len(self.cycle) - 1:
+            self.pos += 1
+        else:
+            self.pos = 0
+
+    def get_cycle(self):
+        return self.cycle[self.pos]

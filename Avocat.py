@@ -20,3 +20,4 @@ class Avocat(FL):
 
     def vote(self):
         print("Avocat vote")
+        self.avote = True

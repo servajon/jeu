@@ -12,6 +12,7 @@ class FL(object):
         self.spritx = 25
         self.sprity = 25
         self.nbvote = 0
+        self.avote = False
 
     def get_nbvote(self):
         return self.nbvote
@@ -19,8 +20,9 @@ class FL(object):
     def plusvote(self):
         self.nbvote = self.nbvote + 1
 
-    def moinsvote(self):
-        self.nbvote = self.nbvote - 1
+    def resetvote(self):
+        self.avote = False
+        self.nbvote = 0
 
     def set_vivant(self, vivant):
         self.vivant = vivant
@@ -57,6 +59,12 @@ class FL(object):
 
     def set_bouge(self, a):
         self.bouge = a
+
+    def get_avote(self):
+        return self.avote
+
+    def set_avote(self, v):
+        self.avote = v
 
     def action(self):
         print("pas d'acion pour la classe FL")

@@ -26,3 +26,4 @@ class Grande_Noix(FL):
 
     def vote(self):
         print("Grande Noix vote")
+        self.avote = True

@@ -19,3 +19,4 @@ class Patate(FL):
 
     def vote(self):
         print("Patate vote")
+        self.avote = True

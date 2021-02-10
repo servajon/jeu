@@ -29,3 +29,4 @@ class Pasteque(FL):
 
     def vote(self):
         print("pastéque vote")
+        self.avote = True

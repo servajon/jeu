@@ -43,3 +43,4 @@ class PommeDoree(FL):
 
     def vote(self):
         print("Pomme Dorée vote")
+        self.avote = True
