@@ -16,3 +16,6 @@ class Patate(FL):
             return True
         else:
             print("Patate : je passe mon tour")
+
+    def vote(self):
+        print("Patate vote")

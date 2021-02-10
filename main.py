@@ -17,9 +17,10 @@ village.drawM(win)
 
 def redrawGameWindow():
     win.fill((0, 0, 0))
-
     village.drawM(win)
     village.drawP(win)
+    village.drawV(win)
+
     pygame.display.update()
 
 
@@ -27,7 +28,6 @@ def redrawGameWindow():
 is_running = True
 while is_running:
     clock.tick(40)
-
     if village.get_evenement() == "rentre":
         if not village.animationrentre():
             village.set_evenement("null")
@@ -36,14 +36,20 @@ while is_running:
         if not village.animationsorti():
             village.set_evenement("null")
 
+    if village.get_evenement() == "vote":
+        if not village.animationsorti():
+            village.set_evenement("null")
+
     if village.get_evenement() == "null":
         keys = pygame.key.get_pressed()
         if keys[pygame.K_LEFT]:
-            village.gestionjour("sort")
+            village.gestionevent("sort")
         elif keys[pygame.K_RIGHT]:
-            village.gestionjour("rentre")
-        elif keys[pygame.K_SPACE]:
-            village.gestionjour("action")
+            village.gestionevent("rentre")
+        elif keys[pygame.K_a]:
+            village.gestionevent("action")
+        elif keys[pygame.K_v]:
+            village.gestionevent("vote")
 
     # Liste des événements ayant lieu durant cette frame
     events = pygame.event.get()

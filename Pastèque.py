@@ -26,3 +26,6 @@ class Pasteque(FL):
             return True
         else:
             print("Pastèque : je passe")
+
+    def vote(self):
+        print("pastéque vote")

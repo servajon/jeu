@@ -17,3 +17,6 @@ class Avocat(FL):
             return True
         else:
             print("Avocat : je passe mon tour")
+
+    def vote(self):
+        print("Avocat vote")

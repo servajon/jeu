@@ -26,3 +26,6 @@ class Artichaut(FL):
                 self.cache = True
         else:
             print("Artichaut : Je passe mon tour")
+
+    def vote(self):
+        print("choisir joueur a éliminer : ")

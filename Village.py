@@ -23,15 +23,11 @@ class Village(object):
     def creation(self):
 
         self.addJ(Artichaut())
+        self.addJ(Pasteque())
         self.addJ(PommeDoree())
-        self.addJ(PommeDoree())
-        self.addJ(PommeDoree())
-        self.addJ(PommeDoree())
-        self.addJ(PommeDoree())
-        self.addJ(PommeDoree())
-        self.addJ(PommeDoree())
-        self.addJ(PommeDoree())
-        self.addJ(PommeDoree())
+        self.addJ(Grande_Noix())
+        self.addJ(Avocat())
+        self.addJ(Grande_Noix())
 
         if self.nbjoueur > len(self.joueurs):  # si plus de 8 jours il y a des personnes patate
             i = len(self.joueurs)
@@ -98,7 +94,6 @@ class Village(object):
 
     def calcposjoueurs(self):
         array = []
-        i = 0
         for i in range(len(self.joueurs)):
             x = int((cmath.cos((cmath.pi * 2) / self.get_nbvivant() * i) * 150).real) + 500
             y = int((cmath.sin((cmath.pi * 2) / self.get_nbvivant() * i) * 150).real) + 350
@@ -117,12 +112,49 @@ class Village(object):
 
     def set_mouvement_on(self):
         for i in range(len(self.joueurs)):
-            if self.joueurs[i].get_vivant() == True:
+            if self.joueurs[i].get_vivant():
                 self.joueurs[i].set_bouge(True)
 
     def action(self):
         for i in range(len(self.joueurs)):
-            self.joueurs[i].action()
+            if self.joueurs[i].get_nom() == "Pomme Dorée":
+                nomres = self.joueurs[i].action()
+                if nomres != "null":
+                    for j in range(len(self.mort)):
+                        if self.mort[j].get_nom() == nomres:
+                            self.mort[j].set_vivant(True)
+                            self.joueurs.append(self.mort[j])
+                            self.joueurs.sort(reverse=True)
+                            self.evenement = "sort"
+                            break
+                else:
+                    self.evenement = "null"
+            else:
+                self.joueurs[i].action()
+
+    def posclique(self):
+        clock = pygame.time.Clock()
+        is_running = True
+        while is_running:
+            clock.tick(40)
+            if pygame.mouse.get_pressed()[0]:
+                return pygame.mouse.get_pos()
+            pygame.event.get()
+
+    def vote(self):
+        pygame.event.clear()
+        clique = self.posclique()
+        for i in range(len(self.joueurs)):
+            x = self.joueurs[i].get_x()
+            y = self.joueurs[i].get_y()
+            if clique[0] > x and clique[0] < x + self.joueurs[i].get_spritx() and clique[1] > y and clique[1] < y + self.joueurs[i].get_sprity():
+                self.joueurs[i].plusvote()
+                #self.evenement = "null"
+                return 0
+        self.vote()
+
+
+
 
     def tue(self, num):
         self.joueurs[num].set_vivant(False)
@@ -130,13 +162,17 @@ class Village(object):
             self.mort.append(self.joueurs[num])
             self.joueurs.pop(num)
 
-    def drawP(self, win):  # dessin des personnages
+    def drawP(self, win):  #dessin des personnages
         for i in range(len(self.joueurs)):
             self.joueurs[i].draw(win)
 
-    def drawM(self, win):  # dessin des maisons
+    def drawM(self, win):  #dessin des maisons
         for i in range(len(self.maisons)):
             self.maisons[i].draw(win)
+
+    def drawV(self, win): #dessin du nombre de vote
+        for i in range(len(self.joueurs)):
+            self.joueurs[i].drawVote(win)
 
     def animationrentre(self):
         i = 0
@@ -261,25 +297,26 @@ class Village(object):
         else:
             return False
 
-    def gestionjour(self, event):
+    def gestionevent(self, event):
         if event == "rentre":
-            for i in range(len(self.joueurs)): #test de la mort de la pastéque
+            self.evenement = "rentre"
+            for i in range(len(self.joueurs)):  # test de la mort de la pastéque
                 if self.joueurs[i].get_nom() == "Pastèque":
                     if self.joueurs[i].get_esttue():
                         self.tue(i)
                         break
 
             self.set_mouvement_on()
-            self.evenement = "rentre"
 
         if event == "sort":
+            self.evenement = "sort"
             self.set_mouvement_on()
             self.tue(0)
-            self.evenement = "sort"
-            print(len(self.joueurs))
 
         if event == "action":
+            self.evenement = "action"
             self.action()
 
         if event == "vote":
-            return 0
+            self.evenement = "vote"
+            self.vote()

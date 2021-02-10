@@ -23,3 +23,6 @@ class Grande_Noix(FL):
             return True
         else:
             print("Grande Noix : je passe")
+
+    def vote(self):
+        print("Grande Noix vote")

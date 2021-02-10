@@ -1,4 +1,5 @@
 import pygame
+from pygame.tests.draw_test import RED, GREEN
 
 
 class FL(object):
@@ -6,9 +7,20 @@ class FL(object):
         self.nom = "FL"
         self.bouge = False
         self.vivant = True
-        self.vote = "null"
         self.x = 0
         self.y = 0
+        self.spritx = 25
+        self.sprity = 25
+        self.nbvote = 0
+
+    def get_nbvote(self):
+        return self.nbvote
+
+    def plusvote(self):
+        self.nbvote = self.nbvote + 1
+
+    def moinsvote(self):
+        self.nbvote = self.nbvote - 1
 
     def set_vivant(self, vivant):
         self.vivant = vivant
@@ -34,23 +46,23 @@ class FL(object):
     def set_y(self, y):
         self.y = y
 
+    def get_spritx(self):
+        return self.spritx
+
+    def get_sprity(self):
+        return self.sprity
+
     def get_bouge(self):
         return self.bouge
 
     def set_bouge(self, a):
         self.bouge = a
 
-    def get_vote(self):
-        return self.vote
-
-    def set_vote(self):
-        print("votez pour la personne a éliminer : ")
-        ch = input()
-        self.vote = ch
-
     def action(self):
-        return ("pas d'acion pour la classe FL")
+        print("pas d'acion pour la classe FL")
 
+    def vote(self):
+        print("pas de vote pour la classe FL")
 
     def __str__(self):
         return self.get_nom()
@@ -64,3 +76,10 @@ class FL(object):
     def draw(self, win):
         if self.vivant:
             win.blit(self.sprit, (self.x, self.y))
+
+    def drawVote(self, win):
+        text = self.nbvote
+        font = pygame.font.SysFont('freesansbold.ttf', 20)
+        text = font.render(str(text), True, RED)
+        win.blit(text, (self.x , self.y - 15))
+
