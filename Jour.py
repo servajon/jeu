@@ -3,7 +3,7 @@ import pygame
 
 class Jour(object):
     def __init__(self):
-        self.cycle = ["mort" ,"sort", "action", "vote", "rentre"]
+        self.cycle = ["mort" ,"sort", "action_0", "transition_0", "vote_0", "transition_1", "vote_2", "transition_2", "rentre"]
         self.pos = 0
 
     def next(self):

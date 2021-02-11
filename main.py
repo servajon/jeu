@@ -4,8 +4,9 @@ from Maison import *
 
 # Intialisation de pygame
 pygame.init()
+bg = pygame.image.load("sprit/bg.png")
 clock = pygame.time.Clock()
-village = Village(15)
+village = Village(10)
 
 # Création de la fenêtre
 
@@ -17,19 +18,22 @@ village.drawMort(win)
 
 
 def redrawGameWindow():
-    win.fill((0, 0, 0))
+    win.fill((0,0,0))
+    win.blit(bg, (0, 0))
     village.drawM(win)
     village.drawP(win)
-    if village.get_evenement() == "vote":
+    if village.get_evenement() == "vote_2":
         village.drawV(win)
     village.drawMort(win)
+    village.affiche_log(win)
+
     pygame.display.update()
 
 
 # Boucle infinie qui tourne tant que le jeu tourne
 is_running = True
 while is_running:
-    #print(village.get_evenement())
+    print(village.get_evenement())
     clock.tick(40)
     if village.get_evenement() == "rentre":
         if not village.animationrentre():
@@ -43,15 +47,37 @@ while is_running:
         if not village.animationsorti():
             village.gestionevent("update_pos_fin")
 
-    if village.get_evenement() == "vote":
-        redrawGameWindow()
-        village.gestionevent("vote")
 
-    if village.get_evenement() == "affiche_vote":
+    if village.get_evenement() == "action_0":
         redrawGameWindow()
+        village.gestionevent("action_0")
 
-    if village.get_evenement() == "action":
-        village.gestionevent("action")
+    if village.get_evenement() == "action_1":
+        redrawGameWindow()
+        village.gestionevent("action_1")
+
+    if village.get_evenement() == "vote_0":
+        redrawGameWindow()
+        village.gestionevent("vote_0")
+
+    if village.get_evenement() == "vote_1":
+        redrawGameWindow()
+        village.gestionevent("vote_1")
+
+    if village.get_evenement() == "vote_2":
+        redrawGameWindow()
+        village.gestionevent("vote_2")
+
+    if village.get_evenement() == "next":
+        redrawGameWindow()
+        village.gestionevent("null")
+
+
+    if village.get_evenement() == "update_last": #cycle suivant
+        redrawGameWindow()
+        pygame.time.wait(500)
+        village.gestionevent("null")
+
 
     if village.get_evenement() == "null": #si aucun événement
         village.gestionjour()

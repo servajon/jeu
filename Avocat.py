@@ -6,18 +6,27 @@ class Avocat(FL):
     def __init__(self):
         FL.__init__(self)
         self.nom = "Avocat"
-        self.sprit = pygame.image.load('sprit/avocat.png')
+        self.sprit = pygame.image.load('sprit/gamejam-image-fruit&légume/avocat_gamejam2021.png')
 
     def get_nom(self):
         return self.nom
 
     def action(self):
+        self.log.clear()
         if not self.get_vivant():
+            self.log.append("je meurs")
             print("Avocat : je meurs")
             return True
         else:
+            self.log.append("je passe mon tour")
             print("Avocat : je passe mon tour")
 
     def vote(self):
+        self.log.clear()
+        self.log.append("Avocat vote : ")
         print("Avocat vote")
         self.avote = True
+
+    def presentation(self):
+        self.log.clear()
+        self.log.append("Avocat : ")

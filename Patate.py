@@ -11,12 +11,21 @@ class Patate(FL):
         return self.nom
 
     def action(self):
+        self.log.clear()
         if not self.get_vivant():
+            self.log.append("Patate : je meurs")
             print("Patate : je meurs")
             return True
         else:
+            self.log.append("je passe mon tour")
             print("Patate : je passe mon tour")
 
     def vote(self):
+        self.log.clear()
+        self.log.append("Patate vote : ")
         print("Patate vote")
         self.avote = True
+
+    def presentation(self):
+        self.log.clear()
+        self.log.append("Patate : ")

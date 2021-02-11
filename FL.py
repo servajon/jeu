@@ -9,10 +9,17 @@ class FL(object):
         self.vivant = True
         self.x = 0
         self.y = 0
-        self.spritx = 25
-        self.sprity = 25
+        self.spritx = 128
+        self.sprity = 128
         self.nbvote = 0
         self.avote = False
+        self.log = []
+
+    def get_log(self):
+        return self.log
+
+    def set_log(self, txt):
+        self.log.append(txt)
 
     def get_nbvote(self):
         return self.nbvote
