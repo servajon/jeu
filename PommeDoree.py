@@ -10,6 +10,8 @@ class PommeDoree(FL):
         self.vie = 1
         self.utilisesur = "null"
         self.sprit = pygame.image.load('sprit/gamejam-image-fruit&légume/goldenApple-Gamejam2021.png')
+        self.spritMort = pygame.image.load('sprit/gamejam-image-fruit&légume/goldenApple-Gamejam2021.png')
+        self.spritMort = pygame.transform.scale(self.spritMort, (40, 40))
 
 
     def get_nom(self):

@@ -17,6 +17,7 @@ village.drawM(win)
 village.drawMort(win)
 
 
+
 def redrawGameWindow():
     win.fill((0,0,0))
     win.blit(bg, (0, 0))
@@ -33,20 +34,24 @@ def redrawGameWindow():
 # Boucle infinie qui tourne tant que le jeu tourne
 is_running = True
 while is_running:
-    print(village.get_evenement())
-    clock.tick(40)
+    clock.tick(60)
+
+    if village.get_evenement() == "start":
+            village.gestionevent("start")
+
     if village.get_evenement() == "rentre":
         if not village.animationrentre():
+            pygame.time.wait(1000)
             village.gestionevent("rentre_fin")
 
     if village.get_evenement() == "sort":
         if not village.animationsorti():
+            pygame.time.wait(1000)
             village.gestionevent("sort_fin")
 
     if village.get_evenement() == "update_pos":
         if not village.animationsorti():
             village.gestionevent("update_pos_fin")
-
 
     if village.get_evenement() == "action_0":
         redrawGameWindow()
@@ -58,6 +63,7 @@ while is_running:
 
     if village.get_evenement() == "vote_0":
         redrawGameWindow()
+        pygame.time.wait(1000)
         village.gestionevent("vote_0")
 
     if village.get_evenement() == "vote_1":
@@ -66,23 +72,23 @@ while is_running:
 
     if village.get_evenement() == "vote_2":
         redrawGameWindow()
+        pygame.time.wait(1000)
         village.gestionevent("vote_2")
 
     if village.get_evenement() == "next":
         redrawGameWindow()
+        pygame.time.wait(1000)
         village.gestionevent("null")
-
 
     if village.get_evenement() == "update_last": #cycle suivant
         redrawGameWindow()
-        pygame.time.wait(500)
+        pygame.time.wait(1000)
         village.gestionevent("null")
 
-
     if village.get_evenement() == "null": #si aucun événement
+        redrawGameWindow()
+        pygame.time.wait(1000)
         village.gestionjour()
-
-        keys = pygame.key.get_pressed()
 
 
     # Liste des événements ayant lieu durant cette frame

@@ -43,6 +43,9 @@ class FL(object):
     def get_sprit(self):
         return self.sprit
 
+    def get_spritMort(self):
+        return self.spritMort
+
     def get_x(self):
         return self.x
 

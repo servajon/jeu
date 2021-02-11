@@ -22,9 +22,8 @@ class Village(object):
 
         self.joueuract = 0
 
-        self.nbjours = 0
         self.jour = Jour()
-        self.evenement = "null"
+        self.evenement = "start"
 
         self.creation()
 
@@ -103,8 +102,8 @@ class Village(object):
     def calcposjoueurs(self):
         array = []
         for i in range(len(self.joueurs)):
-            x = int((cmath.cos((cmath.pi * 2) / self.get_nbvivant() * i) * 160).real) + 480
-            y = int((cmath.sin((cmath.pi * 2) / self.get_nbvivant() * i) * 160).real) + 280
+            x = int((cmath.cos((cmath.pi * 2) / self.get_nbvivant() * i) * 180).real) + 465
+            y = int((cmath.sin((cmath.pi * 2) / self.get_nbvivant() * i) * 180).real) + 290
             array.append(x)
             array.append(y)
         return array
@@ -130,16 +129,16 @@ class Village(object):
                 pygame.event.clear()
                 clique = self.posclique()
                 for j in range(len(self.mort)):
-                    if j > 7:
-                        xmin = 30 * (j - 8) + 750
-                        xmax = 30 * (j - 8) + 750 + 128
+                    if j > 6:
+                        xmin = 40 * (j - 7) + 750
+                        xmax = 40 * (j - 7) + 750 + 40
                         ymin = 65
-                        ymax = 65 + 128
+                        ymax = 65 + 40
                     else:
-                        xmin = 30 * j + 750
-                        xmax = 30 * j + 750 + 128
+                        xmin = 40 * j + 750
+                        xmax = 40 * j + 750 + 40
                         ymin = 20
-                        ymax = 20 + 128
+                        ymax = 20 + 40
 
                     if clique[0] > xmin and clique[0] < xmax and clique[1] > ymin and clique[1] < ymax:
                         self.joueurs[i].actionspe(self.mort[j].get_nom())
@@ -183,12 +182,16 @@ class Village(object):
                 self.joueurs[i].plusvote()
                 print(self.joueurs[i].get_nom())
                 self.evenement = "null"
+                pygame.time.wait(500)
                 return 0
         self.vote()
 
     def tue(self, num):
         self.joueurs[num].set_vivant(False)
+        self.log.clear()
         if self.joueurs[num].action():
+            self.log += self.joueurs[num].get_log()
+            print(self.joueurs[num].get_log())
             self.mort.append(self.joueurs[num])
             self.joueurs.pop(num)
 
@@ -221,9 +224,9 @@ class Village(object):
     def drawMort(self, win):
         for i in range(len(self.mort)):
             if i > 7:
-                win.blit(self.mort[i].get_sprit(), (30 * (i - 8) + 750, 65))
+                win.blit(self.mort[i].get_spritMort(), (40 * (i - 8) + 750, 65))
             else:
-                win.blit(self.mort[i].get_sprit(), (30 * i + 750, 20))
+                win.blit(self.mort[i].get_spritMort(), (40 * i + 750, 20))
 
     def animationrentre(self):
         i = 0
@@ -360,6 +363,15 @@ class Village(object):
         return 0
 
     def gestionevent(self, event):
+
+        if event == "start":
+            self.log.append("")
+            self.log.append("")
+            self.log.append("La vie était paisible dans ce petit village légume...")
+            self.log.append("")
+            self.log.append("Les jours se passer sans encombre, qunad un matin...")
+            self.evenement = "null"
+
         if event == "rentre":
             self.evenement = "rentre"
             for i in range(len(self.joueurs)):  # test de la mort de la pastéque
@@ -382,6 +394,9 @@ class Village(object):
         if event == "mort":
             # print("MORT  --------------------")
             self.tue(0)
+            print(self.log)
+            self.evenement = "null"
+
 
         if event == "sort_fin":
             self.evenement = "null"
@@ -431,33 +446,37 @@ class Village(object):
             self.log.append("-------------------------------------------")
             self.evenement = "next"
 
+        if event == "transition_2":
+            print(self.log)
+
         if event == "null": #plus rien a faire, on passe au cycle suivant ou au jour suivant
             self.gestionjour()
 
     def gestionjour(self):
-        #pygame.time.wait(2500)
-        self.joueuract = 0
+        print(self.jour.get_nbjour())
 
-        print("------------")
-        print(self.jour.get_cycle())
-        print("------------")
-
-        self.gestionevent(self.jour.get_cycle())
-        if self.evenement == "update_pos":
-            self.set_mouvement_on()
+        if self.jour.get_nbjour() == 0:
+            self.gestionevent(self.jour.get_cycleStart())
+            self.jour.nextStart()
         else:
-            self.jour.next()
+            self.joueuract = 0
+            self.gestionevent(self.jour.get_cycle())
+            if self.evenement == "update_pos":
+                self.set_mouvement_on()
+            else:
+                self.jour.next()
 
     def tourjoueur(self, a):
         if a == 0: #pour les actions P1
-            #pygame.time.wait(500)
+            pygame.time.wait(500)
             self.log.clear()
             self.joueurs[self.joueuract].presentation()
             self.log += self.joueurs[self.joueuract].get_log()
             self.evenement = "action_1"
 
         if a == 1: #pour les actions P2
-            #pygame.time.wait(500)
+
+            pygame.time.wait(500)
             self.action()
             if self.evenement == "null":
                 self.evenement = "action_0"
@@ -488,12 +507,13 @@ class Village(object):
                 self.evenement = "null"
 
         if a == 4: #pour les votes P3
+            self.tue(self.get_maxvote())
             self.log.clear()
             self.log.append("-------------------------------------------")
             self.log.append("")
             self.log.append(self.joueurs[self.get_maxvote()].get_nom() + " a reçu le plus de vote, il est donc élimminé !")
             self.log.append("")
             self.log.append("-------------------------------------------")
-            self.tue(self.get_maxvote())
-            self.evenement = "null"
+
+            self.evenement = "next"
 

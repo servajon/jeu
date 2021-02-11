@@ -10,6 +10,8 @@ class Artichaut(FL):
         self.cache = False
         self.cache_tour_passe = False
         self.sprit = pygame.image.load('sprit/gamejam-image-fruit&légume/artichaut_gamejam2021.png')
+        self.spritMort = pygame.image.load('sprit/gamejam-image-fruit&légume/artichaut_gamejam2021.png')
+        self.spritMort = pygame.transform.scale(self.spritMort, (40, 40))
 
     def get_nom(self):
         return self.nom

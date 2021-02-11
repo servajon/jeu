@@ -7,6 +7,8 @@ class Pasteque(FL):
         self.nom = "Pastèque"
         self.esttue = False
         self.sprit = pygame.image.load('sprit/gamejam-image-fruit&légume/Pasteque_gamejam2021.png')
+        self.spritMort = pygame.image.load('sprit/gamejam-image-fruit&légume/Pasteque_gamejam2021.png')
+        self.spritMort = pygame.transform.scale(self.spritMort, (40, 40))
 
     def get_nom(self):
         return self.nom

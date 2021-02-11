@@ -5,7 +5,9 @@ class Patate(FL):
     def __init__(self):
         FL.__init__(self)
         self.nom = "Patate"
-        self.sprit = pygame.image.load('sprit/patate.png')
+        self.sprit = pygame.image.load('sprit/gamejam-image-fruit&légume/Pasteque_gamejam2021.png')
+        self.spritMort = pygame.image.load('sprit/gamejam-image-fruit&légume/Pasteque_gamejam2021.png')
+        self.spritMort = pygame.transform.scale(self.spritMort, (40, 40))
 
     def get_nom(self):
         return self.nom
