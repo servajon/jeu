@@ -103,8 +103,8 @@ class Village(object):
     def calcposjoueurs(self):
         array = []
         for i in range(len(self.joueurs)):
-            x = int((cmath.cos((cmath.pi * 2) / self.get_nbvivant() * i) * 200).real) + 480
-            y = int((cmath.sin((cmath.pi * 2) / self.get_nbvivant() * i) * 200).real) + 280
+            x = int((cmath.cos((cmath.pi * 2) / self.get_nbvivant() * i) * 160).real) + 480
+            y = int((cmath.sin((cmath.pi * 2) / self.get_nbvivant() * i) * 160).real) + 280
             array.append(x)
             array.append(y)
         return array
@@ -132,14 +132,14 @@ class Village(object):
                 for j in range(len(self.mort)):
                     if j > 7:
                         xmin = 30 * (j - 8) + 750
-                        xmax = 30 * (j - 8) + 750 + 25
+                        xmax = 30 * (j - 8) + 750 + 128
                         ymin = 65
-                        ymax = 65 + 25
+                        ymax = 65 + 128
                     else:
                         xmin = 30 * j + 750
-                        xmax = 30 * j + 750 + 25
+                        xmax = 30 * j + 750 + 128
                         ymin = 20
-                        ymax = 20 + 25
+                        ymax = 20 + 128
 
                     if clique[0] > xmin and clique[0] < xmax and clique[1] > ymin and clique[1] < ymax:
                         self.joueurs[i].actionspe(self.mort[j].get_nom())
@@ -496,10 +496,4 @@ class Village(object):
             self.log.append("-------------------------------------------")
             self.tue(self.get_maxvote())
             self.evenement = "null"
-
-
-
-
-
-
 
