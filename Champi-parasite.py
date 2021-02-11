@@ -5,7 +5,7 @@ class Champi_parasite(FL):
     def __init__(self):
         FL.__init__(self)
         self.nom = "Champi_parasite"
-        self.sprit = pygame.image.load('sprit/croix.png')
+        self.sprit = pygame.image.load('sprit/gameJam-image-champi/champi_parasite.png')
 
     def get_nom(self):
         return self.nom

@@ -1,8 +1,8 @@
 class Jour(object):
     def __init__(self):
-        self.cycle = ["mort" ,"sort", "action_0", "transition_0", "vote_0", "transition_1", "vote_2", "transition_2", "rentre"]
+        self.cycle = ["mort" ,"sort", "action_0", "transition_0", "vote_0", "transition_1", "vote_2", "rentre", "nuit"]
         self.pos = 0
-        self.cycleStart = ["rentre", "sort", "rentre", "sort", "rentre"]
+        self.cycleStart = ["rentre", "nuit", "sort", "rentre", "nuit"]
         self.posStart = 0
         self.nbjour = 0
 

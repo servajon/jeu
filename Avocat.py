@@ -1,4 +1,3 @@
-import pygame
 from FL import *
 
 
@@ -17,16 +16,12 @@ class Avocat(FL):
         self.log.clear()
         if not self.get_vivant():
             self.log.append("Avocat : je meurs")
-            print("Avocat : je meurs")
             return True
         else:
             self.log.append("je passe mon tour")
-            print("Avocat : je passe mon tour")
-
     def vote(self):
         self.log.clear()
         self.log.append("Avocat vote : ")
-        print("Avocat vote")
         self.avote = True
 
     def presentation(self):

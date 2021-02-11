@@ -4,9 +4,10 @@ from Maison import *
 
 # Intialisation de pygame
 pygame.init()
-bg = pygame.image.load("sprit/bg.png")
+bgJour = pygame.image.load("sprit/decorJour_gamejam2021V2.png")
+bgNuit = pygame.image.load("sprit/decorNuit_gamejam2021V2.png")
 clock = pygame.time.Clock()
-village = Village(10)
+village = Village(12)
 
 # Création de la fenêtre
 
@@ -20,11 +21,21 @@ village.drawMort(win)
 
 def redrawGameWindow():
     win.fill((0,0,0))
-    win.blit(bg, (0, 0))
+    if village.get_evenement() == "nuit":
+        win.blit(bgNuit, (0, 0))
+    else:
+        win.blit(bgJour, (0, 0))
+
     village.drawM(win)
-    village.drawP(win)
-    if village.get_evenement() == "vote_2":
+
+    if village.get_evenement() != "nuit":
+        village.drawP(win)
+
+    if village.get_evenement() == "affiche_vote":
         village.drawV(win)
+
+
+
     village.drawMort(win)
     village.affiche_log(win)
 
@@ -41,7 +52,6 @@ while is_running:
 
     if village.get_evenement() == "rentre":
         if not village.animationrentre():
-            pygame.time.wait(1000)
             village.gestionevent("rentre_fin")
 
     if village.get_evenement() == "sort":
@@ -85,9 +95,27 @@ while is_running:
         pygame.time.wait(1000)
         village.gestionevent("null")
 
-    if village.get_evenement() == "null": #si aucun événement
+    if village.get_evenement() == "affiche_vote": #cycle suivant
         redrawGameWindow()
         pygame.time.wait(1000)
+        village.gestionevent("null")
+
+    if village.get_evenement() == "nuit": #cycle suivant
+        pygame.time.wait(3000)
+        redrawGameWindow()
+
+        village.gestionevent("null")
+
+    if village.get_evenement() == "fin_du_jeu":
+        redrawGameWindow()
+        pygame.time.wait(1000)
+        village.gestionevent("fin_du_jeu")
+
+
+
+    if village.get_evenement() == "null": #si aucun événement
+        redrawGameWindow()
+        pygame.time.wait(2000)
         village.gestionjour()
 
 

@@ -22,22 +22,18 @@ class Pasteque(FL):
             self.set_vivant(True)
             self.esttue = True
             self.log.append("Pastèque : j'ai été tué, je vais mourir cette nuit")
-            print("Pastèque : j'ai été tué, je vais mourir cette nuit")
             return False
         elif self.get_vivant() == False and self.esttue == True:
             self.set_vivant(True)
 
             self.log.append("Pastèque : je meurs")
-            print("Pastèque : je meurs")
             return True
         else:
             self.log.append("je passe mon tour")
-            print("Pastèque : je passe")
 
     def vote(self):
         self.log.clear()
         self.log.append("pastéque vote : ")
-        print("pastéque vote")
         self.avote = True
 
     def presentation(self):

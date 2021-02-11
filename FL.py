@@ -97,7 +97,7 @@ class FL(object):
 
     def drawVote(self, win):
         text = self.nbvote
-        font = pygame.font.SysFont('freesansbold.ttf', 20)
+        font = pygame.font.SysFont('freesansbold.ttf', 40)
         text = font.render(str(text), True, RED)
-        win.blit(text, (self.x , self.y - 15))
+        win.blit(text, (self.x + 50, self.y - 40))
 

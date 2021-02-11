@@ -6,21 +6,21 @@ class Maison(object):
         self.nom = nom
         self.x = x
         self.y = y
-        self.centrex = x + 64/2
-        self.centrey = y + 92/2
+        self.centrex = x
+        self.centrey = y
 
         if self.nom == 'Artichaut':
-            self.sprit = pygame.image.load('sprit/maisonartichaut.png')
+            self.sprit = pygame.image.load('sprit/assets-image-maison-Fruit+Légume/maison-artichaut_gamejam2021.png')
         elif self.nom == 'Pastèque':
-            self.sprit = pygame.image.load('sprit/maisonPastéque.png')
+            self.sprit = pygame.image.load('sprit/assets-image-maison-Fruit+Légume/maison_pasteque-gamejam2021.png')
         elif self.nom == 'Grande Noix':
-            self.sprit = pygame.image.load('sprit/maisonnoix.png')
+            self.sprit = pygame.image.load('sprit/assets-image-maison-Fruit+Légume/maison-GrandeNoix_gamejam2021.png')
         elif self.nom == 'Pomme Dorée':
-            self.sprit = pygame.image.load('sprit/maisonpomme.png')
+            self.sprit = pygame.image.load('sprit/assets-image-maison-Fruit+Légume/maison-goldenApple_gamejam2021.png')
         elif self.nom == 'Avocat':
-            self.sprit = pygame.image.load('sprit/maisonavocat.png')
+            self.sprit = pygame.image.load('sprit/assets-image-maison-Fruit+Légume/maison-avocat_gamejam2021.png')
         else:
-            self.sprit = pygame.image.load('sprit/maisonpatate.png')
+            self.sprit = pygame.image.load('sprit/assets-image-maison-Fruit+Légume/maison-patate_gamejam2021.png')
 
     def get_x(self):
         return self.x

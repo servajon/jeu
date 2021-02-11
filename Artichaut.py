@@ -1,4 +1,3 @@
-import pygame
 from FL import *
 
 
@@ -20,25 +19,21 @@ class Artichaut(FL):
         self.log.clear()
         if not self.get_vivant():
             self.log.append("Artichaut : je meurs")
-            print("Artichaut : je meurs")
             return True
         elif self.secache:
             if self.cache_tour_passe == True:
                 self.log.append("Artichaut : Je ne peux pas me cacher ce tour, je l'ai fais le tour d'avant")
-                print("Artichaut : Je ne peux pas me cacher ce tour, je l'ai fais le tour d'avant")
             else:
                 self.log.append("Artichaut : Je me cache")
-                print("Artichaut : Je me cache")
                 self.cache = True
         else:
             self.log.append("Je passe mon tour")
-            print("Artichaut : Je passe mon tour")
 
     def vote(self):
         self.log.clear()
         self.log.append("Artichaut vote : ")
-        print("Artichaut vote")
         self.avote = True
+
 
     def presentation(self):
         self.log.clear()
